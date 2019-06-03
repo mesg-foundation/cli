@@ -1,3 +1,4 @@
+
 import {Command, flags} from '@oclif/command'
 import {join} from 'path'
 import * as grpc from 'grpc'
@@ -29,6 +30,7 @@ export default abstract class extends Command {
 
   private _mesg: Application | null = null
   private _serviceAPI: any
+  private _instanceAPI: any
 
   get engineEndpoint(): string {
     const host = process.env.DOCKER_HOST
@@ -49,6 +51,13 @@ export default abstract class extends Command {
       this._serviceAPI = this.createClient('ServiceX', 'api', 'service.proto', this.engineEndpoint)
     }
     return this._serviceAPI
+  }
+  
+  get instanceAPI() {
+    if (!this._instanceAPI) {
+      this._instanceAPI = this.createClient('Instance', 'api', 'instance.proto', this.engineEndpoint)
+    }
+    return this._instanceAPI
   }
 
   createClient(serviceName: string, dir: string, file: string, endpoint: string) {
