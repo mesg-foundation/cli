@@ -21,6 +21,7 @@ export interface CompiledDefinition {
   configuration: Dependency
   repository: string
   source: string
+  workflows: Workflow[]
 }
 
 export interface Definition extends CompiledDefinition {
@@ -60,6 +61,20 @@ export interface Parameter {
   optional: boolean
   repeated: boolean
   object: Parameter[]
+}
+
+export interface Workflow {
+  trigger: {
+    instanceHash: string
+    eventKey: string
+    filter: {
+      taskKey: string
+    }
+  }
+  tasks: [{
+    instanceHash: string
+    key: string
+  }]
 }
 
 export type SERVICE_PARAMETER_TYPE = 'String' | 'Number' | 'Boolean' | 'Object' | 'Any'

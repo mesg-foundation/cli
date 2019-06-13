@@ -54,7 +54,11 @@ export default class ServiceCompile extends Command {
       dependencies: Object.keys(o.dependencies || {}).map((key: string) => ({key, ...o.dependencies[key]})),
       configuration: o.configuration,
       repository: o.repository,
-      source
+      source,
+      workflows: Object.keys(o.workflows || {}).map((key: string) => {
+        const {trigger, tasks} = o.workflows[key]
+        return {key, trigger, tasks}
+      }),
     }
   }
 
