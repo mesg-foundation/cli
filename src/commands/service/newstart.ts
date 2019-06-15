@@ -1,4 +1,5 @@
 import {flags} from '@oclif/command'
+
 import Command from '../../service-command'
 
 export default class ServiceDeployNew extends Command {

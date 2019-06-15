@@ -50,7 +50,7 @@ export default abstract class extends Command {
     }
     return this._serviceAPI
   }
-  
+
   get instanceAPI() {
     if (!this._instanceAPI) {
       this._instanceAPI = this.createClient('Instance', 'api', 'instance.proto', this.engineEndpoint)
