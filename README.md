@@ -1,14 +1,12 @@
-mesg-core
+mesg-cli
 =========
 
 MESG Engine CLI
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/mesg-core.svg)](https://npmjs.org/package/mesg-core)
-[![CircleCI](https://circleci.com/gh/mesg-foundation/mesg-core/tree/master.svg?style=shield)](https://circleci.com/gh/mesg-foundation/mesg-core/tree/master)
-[![Codecov](https://codecov.io/gh/mesg-foundation/mesg-core/branch/master/graph/badge.svg)](https://codecov.io/gh/mesg-foundation/mesg-core)
-[![Downloads/week](https://img.shields.io/npm/dw/mesg-core.svg)](https://npmjs.org/package/mesg-core)
-[![License](https://img.shields.io/npm/l/mesg-core.svg)](https://github.com/mesg-foundation/mesg-core/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/mesg-cli.svg)](https://npmjs.org/package/mesg-cli)
+[![Downloads/week](https://img.shields.io/npm/dw/mesg-cli.svg)](https://npmjs.org/package/mesg-cli)
+[![License](https://img.shields.io/npm/l/mesg-cli.svg)](https://github.com/mesg-foundation/cli/blob/master/package.json)
 
 <!-- toc -->
 * [Usage](#usage)
@@ -21,7 +19,7 @@ $ npm install -g mesg-cli
 $ mesg-cli COMMAND
 running command...
 $ mesg-cli (-v|--version|version)
-mesg-cli/0.0.0 darwin-x64 node-v11.14.0
+mesg-cli/1.0.4 darwin-x64 node-v10.16.0
 $ mesg-cli --help [COMMAND]
 USAGE
   $ mesg-cli COMMAND
@@ -36,7 +34,6 @@ USAGE
 * [`mesg-cli account:import ACCOUNT`](#mesg-cli-accountimport-account)
 * [`mesg-cli account:import-private-key PRIVATE_KEY`](#mesg-cli-accountimport-private-key-private_key)
 * [`mesg-cli account:list`](#mesg-cli-accountlist)
-* [`mesg-cli autocomplete [SHELL]`](#mesg-cli-autocomplete-shell)
 * [`mesg-cli daemon:logs`](#mesg-cli-daemonlogs)
 * [`mesg-cli daemon:start`](#mesg-cli-daemonstart)
 * [`mesg-cli daemon:status`](#mesg-cli-daemonstatus)
@@ -73,7 +70,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/account/create.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/account/create.ts)_
+_See code: [src/commands/account/create.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/account/create.ts)_
 
 ## `mesg-cli account:delete ADDRESS`
 
@@ -94,7 +91,7 @@ ALIASES
   $ mesg-cli account:destroy
 ```
 
-_See code: [src/commands/account/delete.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/account/delete.ts)_
+_See code: [src/commands/account/delete.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/account/delete.ts)_
 
 ## `mesg-cli account:export ADDRESS`
 
@@ -111,7 +108,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/account/export.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/account/export.ts)_
+_See code: [src/commands/account/export.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/account/export.ts)_
 
 ## `mesg-cli account:import ACCOUNT`
 
@@ -131,7 +128,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/account/import.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/account/import.ts)_
+_See code: [src/commands/account/import.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/account/import.ts)_
 
 ## `mesg-cli account:import-private-key PRIVATE_KEY`
 
@@ -151,7 +148,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/account/import-private-key.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/account/import-private-key.ts)_
+_See code: [src/commands/account/import-private-key.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/account/import-private-key.ts)_
 
 ## `mesg-cli account:list`
 
@@ -177,34 +174,11 @@ ALIASES
   $ mesg-cli account:ls
 ```
 
-_See code: [src/commands/account/list.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/account/list.ts)_
-
-## `mesg-cli autocomplete [SHELL]`
-
-display autocomplete installation instructions
-
-```
-USAGE
-  $ mesg-cli autocomplete [SHELL]
-
-ARGUMENTS
-  SHELL  shell type
-
-OPTIONS
-  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
-
-EXAMPLES
-  $ mesg-cli autocomplete
-  $ mesg-cli autocomplete bash
-  $ mesg-cli autocomplete zsh
-  $ mesg-cli autocomplete --refresh-cache
-```
-
-_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.1.0/src/commands/autocomplete/index.ts)_
+_See code: [src/commands/account/list.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/account/list.ts)_
 
 ## `mesg-cli daemon:logs`
 
-Show the Core's logs
+Show the Engine's logs
 
 ```
 USAGE
@@ -213,12 +187,12 @@ USAGE
 OPTIONS
   -h, --help   show CLI help
   -q, --quiet
-  --name=name  (required) [default: core] name of the service running the core
+  --name=name  (required) [default: engine] name of the service running the engine
   --silent
   --tail=tail  [default: -1] Output specified number of lines at the end of logs
 ```
 
-_See code: [src/commands/daemon/logs.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/daemon/logs.ts)_
+_See code: [src/commands/daemon/logs.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/daemon/logs.ts)_
 
 ## `mesg-cli daemon:start`
 
@@ -234,16 +208,16 @@ OPTIONS
   --log-force-colors                               log force colors
   --log-format=(text|json)                         [default: text] log format
   --log-level=(debug|info|warn|error|fatal|panic)  [default: info] log level
-  --name=name                                      (required) [default: core] name of the service running the core
+  --name=name                                      (required) [default: engine] name of the service running the engine
   --silent
-  --version=version                                (required) [default: latest] Version of the core to run
+  --version=version                                (required) [default: v0.10.1] Version of the engine to run
 ```
 
-_See code: [src/commands/daemon/start.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/daemon/start.ts)_
+_See code: [src/commands/daemon/start.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/daemon/start.ts)_
 
 ## `mesg-cli daemon:status`
 
-Get the Core's status
+Get the Engine's status
 
 ```
 USAGE
@@ -252,11 +226,11 @@ USAGE
 OPTIONS
   -h, --help   show CLI help
   -q, --quiet
-  --name=name  (required) [default: core] name of the service running the core
+  --name=name  (required) [default: engine] name of the service running the engine
   --silent
 ```
 
-_See code: [src/commands/daemon/status.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/daemon/status.ts)_
+_See code: [src/commands/daemon/status.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/daemon/status.ts)_
 
 ## `mesg-cli daemon:stop`
 
@@ -269,11 +243,11 @@ USAGE
 OPTIONS
   -h, --help   show CLI help
   -q, --quiet
-  --name=name  (required) [default: core] name of the service running the core
+  --name=name  (required) [default: engine] name of the service running the engine
   --silent
 ```
 
-_See code: [src/commands/daemon/stop.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/daemon/stop.ts)_
+_See code: [src/commands/daemon/stop.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/daemon/stop.ts)_
 
 ## `mesg-cli help [COMMAND]`
 
@@ -313,7 +287,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/marketplace/create-offer.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/marketplace/create-offer.ts)_
+_See code: [src/commands/marketplace/create-offer.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/marketplace/create-offer.ts)_
 
 ## `mesg-cli marketplace:publish SERVICE_PATH`
 
@@ -334,7 +308,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/marketplace/publish.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/marketplace/publish.ts)_
+_See code: [src/commands/marketplace/publish.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/marketplace/publish.ts)_
 
 ## `mesg-cli marketplace:purchase SERVICE_ID OFFER_ID`
 
@@ -356,7 +330,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/marketplace/purchase.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/marketplace/purchase.ts)_
+_See code: [src/commands/marketplace/purchase.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/marketplace/purchase.ts)_
 
 ## `mesg-cli service:delete SERVICE`
 
@@ -381,7 +355,7 @@ ALIASES
   $ mesg-cli service:destroy
 ```
 
-_See code: [src/commands/service/delete.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/delete.ts)_
+_See code: [src/commands/service/delete.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/delete.ts)_
 
 ## `mesg-cli service:deploy [SERVICE_PATH_OR_URL]`
 
@@ -401,7 +375,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/service/deploy.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/deploy.ts)_
+_See code: [src/commands/service/deploy.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/deploy.ts)_
 
 ## `mesg-cli service:detail SERVICE`
 
@@ -423,7 +397,7 @@ ALIASES
   $ mesg-cli service:get
 ```
 
-_See code: [src/commands/service/detail.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/detail.ts)_
+_See code: [src/commands/service/detail.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/detail.ts)_
 
 ## `mesg-cli service:dev [SERVICE_PATH]`
 
@@ -444,12 +418,11 @@ OPTIONS
   --event=event                Filter specific events in the logs
   --no-events                  Remove events from the logs
   --no-results                 Remove results from the logs
-  --output=output              Filter specific outputs in the logs
   --silent
   --task=task                  Filter specific task results in the logs
 ```
 
-_See code: [src/commands/service/dev.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/dev.ts)_
+_See code: [src/commands/service/dev.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/dev.ts)_
 
 ## `mesg-cli service:doc [SERVICE_PATH]`
 
@@ -465,6 +438,7 @@ ARGUMENTS
 OPTIONS
   -h, --help   show CLI help
   -q, --quiet
+  -s, --save   Save to default readme file
   --silent
 
 ALIASES
@@ -472,7 +446,7 @@ ALIASES
   $ mesg-cli service:docs
 ```
 
-_See code: [src/commands/service/doc.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/doc.ts)_
+_See code: [src/commands/service/doc.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/doc.ts)_
 
 ## `mesg-cli service:execute SERVICE TASK`
 
@@ -497,7 +471,7 @@ ALIASES
   $ mesg-cli service:exec
 ```
 
-_See code: [src/commands/service/execute.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/execute.ts)_
+_See code: [src/commands/service/execute.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/execute.ts)_
 
 ## `mesg-cli service:init DIR`
 
@@ -517,7 +491,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/service/init.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/init.ts)_
+_See code: [src/commands/service/init.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/init.ts)_
 
 ## `mesg-cli service:list`
 
@@ -543,7 +517,7 @@ ALIASES
   $ mesg-cli service:ls
 ```
 
-_See code: [src/commands/service/list.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/list.ts)_
+_See code: [src/commands/service/list.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/list.ts)_
 
 ## `mesg-cli service:logs SERVICE`
 
@@ -563,12 +537,11 @@ OPTIONS
   --event=event                Filter specific events in the logs
   --no-events                  Remove events from the logs
   --no-results                 Remove results from the logs
-  --output=output              Filter specific outputs in the logs
   --silent
   --task=task                  Filter specific task results in the logs
 ```
 
-_See code: [src/commands/service/logs.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/logs.ts)_
+_See code: [src/commands/service/logs.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/logs.ts)_
 
 ## `mesg-cli service:start SERVICE`
 
@@ -587,7 +560,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/service/start.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/start.ts)_
+_See code: [src/commands/service/start.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/start.ts)_
 
 ## `mesg-cli service:stop SERVICE`
 
@@ -606,7 +579,7 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/service/stop.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/stop.ts)_
+_See code: [src/commands/service/stop.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/stop.ts)_
 
 ## `mesg-cli service:validate [SERVICE_PATH]`
 
@@ -626,5 +599,5 @@ OPTIONS
   --silent
 ```
 
-_See code: [src/commands/service/validate.ts](https://github.com/mesg-foundation/cli/blob/v0.0.0/src/commands/service/validate.ts)_
+_See code: [src/commands/service/validate.ts](https://github.com/mesg-foundation/cli/blob/v1.0.4/src/commands/service/validate.ts)_
 <!-- commandsstop -->

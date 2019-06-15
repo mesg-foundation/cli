@@ -1,12 +1,11 @@
-
-import {Command, flags} from '@oclif/command'
-import {join} from 'path'
-import * as grpc from 'grpc'
 import * as protoLoader from '@grpc/proto-loader'
+import {Command, flags} from '@oclif/command'
 import {cli} from 'cli-ux'
+import * as grpc from 'grpc'
 import {application} from 'mesg-js'
 import {Application, EventData, Stream} from 'mesg-js/lib/application'
 import {checkStreamReady, errNoStatus} from 'mesg-js/lib/util/grpc'
+import {join} from 'path'
 import {format, inspect} from 'util'
 
 type UNARY_METHODS = 'DeleteService'
@@ -17,7 +16,6 @@ type UNARY_METHODS = 'DeleteService'
   | 'Info'
 
 export interface ExecutionResult {
-  output: string
   data: any
 }
 
@@ -64,7 +62,7 @@ export default abstract class extends Command {
     const packageDefinition = protoLoader.loadSync(join(__dirname, './protobuf', dir, file), {
       includeDirs: [__dirname]
     })
-    const packageObject = grpc.loadPackageDefinition(packageDefinition)
+    const packageObject = grpc.loadPackageDefinition(packageDefinition) as any
     const clientConstructor = packageObject[dir][serviceName]
     return new clientConstructor(endpoint, grpc.credentials.createInsecure())
   }
@@ -104,32 +102,26 @@ export default abstract class extends Command {
     cli.styledJSON(data)
   }
 
-  async execute(serviceID: string, taskKey: string, data: object = {}): Promise<ExecutionResult> {
+  async executeAndCaptureError(serviceID: string, taskKey: string, data: object = {}, tags: string[] = []): Promise<ExecutionResult> {
     this.debug(`Execute task ${taskKey} from ${serviceID} with ${JSON.stringify(data)}`)
-    const result = await this.mesg.executeTaskAndWaitResult({
-      serviceID,
-      taskKey,
-      inputData: JSON.stringify(data),
-      executionTags: ['cli']
-    })
-    if (result.error) {
-      this.error(result.error)
-      throw result.error
+    try {
+      const result = await this.mesg.executeTaskAndWaitResult({
+        serviceID,
+        taskKey,
+        inputData: JSON.stringify(data),
+        executionTags: [...tags, 'cli']
+      })
+      this.debug(`Receiving result of ${result.executionHash}, ${result.taskKey} => ${result.outputData}`)
+      if (result.error) {
+        throw new Error(result.error)
+      }
+      return {
+        data: JSON.parse(result.outputData)
+      }
+    } catch (e) {
+      this.error(e.message)
+      throw new Error(e.message)
     }
-    this.debug(`Receiving result of ${result.executionID}, ${result.outputKey} ${result.taskKey} => ${result.outputData}`)
-    return {
-      data: JSON.parse(result.outputData),
-      output: result.outputKey,
-    }
-  }
-
-  async executeAndCaptureError(serviceID: string, taskKey: string, data: object = {}): Promise<ExecutionResult> {
-    const result = await this.execute(serviceID, taskKey, data)
-    if (result.output === 'error') {
-      this.error(result.data.message)
-      throw new Error(result.data.message)
-    }
-    return result
   }
 
   async unaryCall(method: UNARY_METHODS, data: object = {}): Promise<any> {
@@ -160,4 +152,3 @@ export default abstract class extends Command {
       })
   }
 }
-

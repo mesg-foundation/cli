@@ -1,4 +1,5 @@
 import {flags} from '@oclif/command'
+import {existsSync, mkdirSync} from 'fs'
 import {Docker} from 'node-docker-api'
 import {Network} from 'node-docker-api/lib/network'
 import {homedir} from 'os'
@@ -33,9 +34,9 @@ export default abstract class extends Command {
   static flags = {
     ...Command.flags,
     name: flags.string({
-      description: 'name of the service running the core',
+      description: 'name of the service running the engine',
       required: true,
-      default: 'core'
+      default: 'engine'
     }),
   }
 
@@ -82,6 +83,10 @@ export default abstract class extends Command {
 
   async createService(network: Network, options: ServiceOption) {
     const image = `mesg/engine:${options.version}`
+    const sourcePath = join(homedir(), '.mesg')
+    if (!existsSync(sourcePath)) {
+      mkdirSync(sourcePath)
+    }
     return this.docker.service.create({
       Name: options.name,
       Labels: {
@@ -95,25 +100,26 @@ export default abstract class extends Command {
             'com.docker.stack.namespace': options.name
           },
           Env: [
-            'MESG_SERVER_ADDRESS=:50052',
             `MESG_LOG_FORMAT=${options.format}`,
             `MESG_LOG_LEVEL=${options.level}`,
             `MESG_LOG_FORCECOLORS=${options.colors}`,
-            `MESG_CORE_NAME=${options.name}`,
-            'MESG_CORE_PATH=/mesg',
+            `MESG_NAME=${options.name}`,
           ],
           Mounts: [{
             Source: '/var/run/docker.sock',
             Target: '/var/run/docker.sock',
             Type: 'bind',
           }, {
-            Source: join(homedir(), '.mesg'),
-            Target: '/mesg',
+            Source: sourcePath,
+            Target: '/root/.mesg',
             Type: 'bind',
           }],
         },
         Networks: [
-          {Target: network.id, Alias: 'core'},
+          {
+            Target: network.id,
+            Alias: options.name,
+          },
         ]
       },
       EndpointSpec: {
@@ -127,10 +133,10 @@ export default abstract class extends Command {
     })
   }
 
-  // https://github.com/portainer/portainer/blob/61c285bd2e3b16538b455c653a3be0749d46ce5f/app/docker/helpers/logHelper.js
-  parseLog(buffer: Buffer): string {
+  parseLog(buffer: Buffer): string[] {
     return buffer.toString()
-      .substring(8)
-      .replace(/\n(.{8})/g, '\n\r')
+      .split('\n')
+      .map(x => x.substring(8)) // Skip the 8 caracters that docker put in front of its logs
+      .filter(x => x)
   }
 }

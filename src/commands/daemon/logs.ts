@@ -3,7 +3,7 @@ import {flags} from '@oclif/command'
 import Command from '../../docker-command'
 
 export default class Logs extends Command {
-  static description = 'Show the Core\'s logs'
+  static description = 'Show the Engine\'s logs'
 
   static flags = {
     ...Command.flags,
@@ -26,7 +26,7 @@ export default class Logs extends Command {
       follow: true,
       tail: flags.tail && flags.tail >= 0 ? flags.tail : 'all'
     })
-    logs.on('data', (buffer: Buffer) => this.log(this.parseLog(buffer)))
+    logs.on('data', (buffer: Buffer) => this.parseLog(buffer).forEach(x => this.log(x)))
     logs.on('error', (error: Error) => {
       throw error
     })

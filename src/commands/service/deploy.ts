@@ -1,11 +1,12 @@
 import {flags} from '@oclif/command'
-import {readdirSync, readFileSync, existsSync} from 'fs'
+import {existsSync, readdirSync, readFileSync} from 'fs'
+import ignore from 'ignore'
+import {join} from 'path'
 import {Readable, Writable} from 'stream'
 import tar from 'tar'
 
 import deployer from '../../deployer'
 import Command, {ServiceID} from '../../service-command'
-import {join} from 'path';
 
 export default class ServiceDeploy extends Command {
   static description = 'Deploy a service'
@@ -64,13 +65,13 @@ export default class ServiceDeploy extends Command {
 
   createTar(path: string): Readable {
     const mesgignore = join(path, '.mesgignore')
-    const ignore = [
+    const ig = ignore().add([
       '.git',
       ...(existsSync(mesgignore) ? readFileSync(mesgignore).toString().split('\n') : [])
-    ]
+    ])
     return tar.create({
       cwd: path,
-      filter: (path: string) => !ignore.includes(path),
+      filter: ig.createFilter(),
       strict: true,
       gzip: true,
       portable: true,

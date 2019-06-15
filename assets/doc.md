@@ -5,32 +5,32 @@
 ## Contents
 
 - [Installation](#Installation)
-  - [MESG Engine](#MESG-Core)
+  - [MESG SDK](#MESG-SDK)
   - [Deploy the Service](#Service)
 - [Definitions](#Definitions)
   {{#if events}}
   - [Events](#Events)
     {{#each events}}
-    - [{{or name @key}}](#{{or name @key}})
+    - [{{or name @key}}](#{{@key}})
     {{/each}}
   {{/if}}
   {{#if tasks}}
   - [Tasks](#Tasks)
   {{#each tasks}}
-    - [{{or name @key}}](#{{or name @key}})
+    - [{{or name @key}}](#{{@key}})
   {{/each}}
 {{/if}}
 
 ## Installation
 
-### MESG Engine
+### MESG SDK
 
-This service requires [MESG Engine](https://github.com/mesg-foundation/core) to be installed first.
+This service requires [MESG SDK](https://github.com/mesg-foundation/engine) to be installed first.
 
-You can install MESG Engine by running the following command or [follow the installation guide](https://docs.mesg.com/guide/start-here/installation.html).
+You can install MESG SDK by running the following command or [follow the installation guide](https://docs.mesg.com/guide/start-here/installation.html).
 
 ```bash
-bash <(curl -fsSL https://mesg.com/install)
+npm install -g mesg-cli
 ```
 
 ### Deploy the Service
@@ -43,7 +43,7 @@ To deploy this service, go to [this service page](https://marketplace.mesg.com/s
 ### Events
 
   {{#each events}}
-#### {{or name @key}}
+<h4 id="{{@key}}">{{or name @key}}</h4>
 
 Event key: `{{@key}}`
 
@@ -63,7 +63,7 @@ Event key: `{{@key}}`
 ### Tasks
 
   {{#each tasks}}
-#### {{or name @key}}
+<h4 id="{{@key}}">{{or name @key}}</h4>
 
 Task key: `{{@key}}`
 
@@ -82,19 +82,10 @@ Task key: `{{@key}}`
     {{#if outputs}}
 ##### Outputs
 
-      {{#each outputs}}
-###### {{or name @key}}
-
-Output key: `{{@key}}`
-
-{{description}}
-
 | **Name** | **Key** | **Type** | **Description** |
 | --- | --- | --- | --- |
-        {{#each data}}
+      {{#each outputs}}
 | **{{or name @key}}** | `{{@key}}` | `{{type}}` | {{#if optional}}**`optional`** {{/if}}{{description}} |
-        {{/each}}
-
       {{/each}}
     {{/if}}
   {{/each}}
