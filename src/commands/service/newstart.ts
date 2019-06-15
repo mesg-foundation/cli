@@ -2,7 +2,7 @@ import {flags} from '@oclif/command'
 import Command from '../../service-command'
 
 export default class ServiceDeployNew extends Command {
-  static description = 'Start a service'
+  static description = 'Stop a service instance'
 
   static flags = {
     ...Command.flags,
@@ -25,13 +25,13 @@ export default class ServiceDeployNew extends Command {
     const {args, flags} = this.parse(ServiceDeployNew)
     this.spinner.start('Start service')
     return new Promise<string>((resolve, reject) => {
-      this.instanceAPI.Create({id: args.SERVICE, env: flags.env}, (err, resp) => {
+      this.instanceAPI.Create({serviceHash: args.SERVICE, env: flags.env}, (err, resp) => {
         if (err) {
           reject(err)
           this.spinner.stop(err)
           return
         }
-        this.spinner.stop(`${resp.sid} (${resp.hash})`)
+        this.spinner.stop(resp.hash)
         resolve(resp.hash)
       })
     })
