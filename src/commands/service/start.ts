@@ -1,12 +1,12 @@
 import {flags} from '@oclif/command'
-import {InstanceCreateOutputs} from 'mesg-js/lib/api'
+import {RunnerCreateOutputs} from 'mesg-js/lib/api'
 import * as base58 from 'mesg-js/lib/util/base58'
 
-import Command from '../../root-command'
+import {WithCredential as Command} from '../../credential-command'
 import serviceResolver from '../../utils/service-resolver'
 
 export default class ServiceStart extends Command {
-  static description = 'Start a service by creating a new instance'
+  static description = 'Start a service by creating a new runner'
 
   static flags = {
     ...Command.flags,
@@ -22,16 +22,17 @@ export default class ServiceStart extends Command {
     required: true,
   }]
 
-  async run(): InstanceCreateOutputs {
+  async run(): RunnerCreateOutputs {
     const {args, flags} = this.parse(ServiceStart)
-    this.spinner.start('Start instance')
+    const credential = await this.getCredential()
+    this.spinner.start('Start runner')
     const serviceHash = await serviceResolver(this.api, args.SERVICE_HASH)
-    const instance = await this.api.instance.create({
+    const runner = await this.api.runner.create({
       serviceHash,
       env: flags.env
-    })
-    if (!instance.hash) throw new Error('invalid instance')
-    this.spinner.stop(base58.encode(instance.hash))
-    return instance
+    }, credential)
+    if (!runner.hash) throw new Error('invalid runner')
+    this.spinner.stop(base58.encode(runner.hash))
+    return runner
   }
 }

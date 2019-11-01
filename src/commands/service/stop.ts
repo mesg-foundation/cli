@@ -1,8 +1,8 @@
 import {flags} from '@oclif/command'
 import cli from 'cli-ux'
 
-import Command from '../../root-command'
-import instanceResolver from '../../utils/instance-resolver'
+import {WithCredential as Command} from '../../credential-command'
+import runnerResolver from '../../utils/runner-resolver'
 
 export default class ServiceStop extends Command {
   static description = 'Stop one or more running service'
@@ -22,20 +22,21 @@ export default class ServiceStop extends Command {
   static strict = false
 
   static args = [{
-    name: 'INSTANCE_HASH...',
+    name: 'RUNNER_HASH...',
     required: true,
   }]
 
   async run(): Promise<string[]> {
     const {argv, flags} = this.parse(ServiceStop)
+    const credential = await this.getCredential()
     if (flags['delete-data'] && !flags.confirm) {
       cli.warn('This will delete all the data associated with this running service')
       if (!await cli.confirm('Are you sure?')) return []
     }
     this.spinner.start('Stop running services')
     for (const hash of argv) {
-      const instanceHash = await instanceResolver(this.api, hash)
-      await this.api.instance.delete({hash: instanceHash, deleteData: flags['delete-data']})
+      const runnerHash = await runnerResolver(this.api, hash)
+      await this.api.runner.delete({hash: runnerHash, deleteData: flags['delete-data']}, credential)
     }
     this.spinner.stop(argv.join(', '))
     return argv
